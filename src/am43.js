@@ -154,7 +154,16 @@ class am43 extends EventEmitter {
                         self.positionpercentage = positionPercentage;
                         self.positionsuccess = true;
                         self.reevaluateState();
-                    }
+                    } else {
+						
+						self.writeLog('Notification identifier unknown');
+						self.writeLog('Skipping');
+						self.reevaluateState();
+						
+					}
+					
+					
+					
 
                     if (self.batterysuccess && self.lightsuccess && self.positionsuccess) {
                         self.writeLog("Reading data completed");
