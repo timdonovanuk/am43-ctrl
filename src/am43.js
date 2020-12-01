@@ -57,7 +57,7 @@ class am43 extends EventEmitter {
             this.writeLog('Connection busy for other device, delaying data read...');
             setTimeout(() => {
                 this.readData()
-            }, 1000);
+            }, 10);
             return;
         }
 
