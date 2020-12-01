@@ -22,6 +22,7 @@ const HEY_KEY_POSITION_REQUEST = "00ff00009aa701013d";
 const batteryNotificationIdentifier = "a2";
 const positionNotificationIdentifier = "a7";
 const lightNotificationIdentifier = "aa";
+const unknownNotificationIdentifier = "00";
 
 const fullMovingTime = 137000;
 
@@ -53,14 +54,17 @@ class am43 extends EventEmitter {
     }
 
     readData() {
+		 self.writeLog('entering readData()');
+		
         if (am43.busyDevice != null) {
             this.writeLog('Connection busy for other device, delaying data read...');
             setTimeout(() => {
+			this.writeLog('Trying to read data...');	
                 this.readData()
-            }, 10);
+            }, 1000);
             return;
         }
-
+		self.writeLog('going back to performReadData()');
         this.performReadData();
     }
 
@@ -81,6 +85,7 @@ class am43 extends EventEmitter {
             var characteristicUUIDs = [NOBLE_BAT_CHAR_UID];
             var serviceUID = [NOBLE_SERVICE_UID];
             self.peripheral.removeAllListeners('servicesDiscover');
+			self.writeLog('discoverSomeServicesAndCharacteristics');
             self.peripheral.discoverSomeServicesAndCharacteristics(serviceUID, characteristicUUIDs, discoveryResult);
         }
 
@@ -118,8 +123,10 @@ class am43 extends EventEmitter {
                     self.writeLog('received characteristic update');
                     //read data to buffer
                     let bfr = Buffer.from(data, "hex");
+					self.writeLog('putting stuff in bfr');
                     //convert to hex string
                     let strBfr = bfr.toString("hex", 0, bfr.length);
+					self.writeLog('converting bfr to string');
                     self.writeLog('Notification data: ' + strBfr);
                     let notificationIdentifier = strBfr.substr(2, 2);
                     self.writeLog('Notification identifier: ' + notificationIdentifier);
@@ -158,7 +165,7 @@ class am43 extends EventEmitter {
 						
 						self.writeLog('Notification identifier unknown');
 						self.writeLog('Skipping');
-						self.reevaluateState();
+			
 						
 					}
 					
@@ -172,6 +179,9 @@ class am43 extends EventEmitter {
                             self.peripheral.disconnect();
                         }, 1000);
                     }
+					
+					this.writeLog('Reached end of characteristic loop with nowhere to go...');	
+					
                 });
                 //subscribe to notifications on the char
                 characteristic.subscribe();
