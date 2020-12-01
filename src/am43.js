@@ -172,8 +172,8 @@ class am43 extends EventEmitter {
 					
 					
 					
-
-                    if (self.batterysuccess && self.lightsuccess && self.positionsuccess) {
+//                  if (self.batterysuccess && self.lightsuccess && self.positionsuccess) {
+                    if (self.batterysuccess) {
                         self.writeLog("Reading data completed");
                         characteristic.unsubscribe();
                         setTimeout(() => {
