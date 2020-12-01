@@ -181,7 +181,7 @@ class am43 extends EventEmitter {
                         }, 1000);
                     }
 					
-					this.writeLog('Reached end of characteristic loop with nowhere to go...');	
+			self.writeLog('Reached end of characteristic loop with nowhere to go...');	
 					
                 });
                 //subscribe to notifications on the char
