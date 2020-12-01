@@ -54,7 +54,8 @@ class am43 extends EventEmitter {
     }
 
     readData() {
-		 self.writeLog('entering readData()');
+	
+	this.writeLog('entering readData()');
 		
         if (am43.busyDevice != null) {
             this.writeLog('Connection busy for other device, delaying data read...');
@@ -64,7 +65,7 @@ class am43 extends EventEmitter {
             }, 1000);
             return;
         }
-		self.writeLog('going back to performReadData()');
+	this.writeLog('going back to performReadData()');
         this.performReadData();
     }
 
@@ -85,7 +86,7 @@ class am43 extends EventEmitter {
             var characteristicUUIDs = [NOBLE_BAT_CHAR_UID];
             var serviceUID = [NOBLE_SERVICE_UID];
             self.peripheral.removeAllListeners('servicesDiscover');
-			self.writeLog('discoverSomeServicesAndCharacteristics');
+	    self.writeLog('discoverSomeServicesAndCharacteristics');
             self.peripheral.discoverSomeServicesAndCharacteristics(serviceUID, characteristicUUIDs, discoveryResult);
         }
 
